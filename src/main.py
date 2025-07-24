@@ -13,6 +13,7 @@ async def main():
         tasks = [get_data(session, url, i) for i in range(1, 333)]
         await asyncio.gather(*tasks, return_exceptions=True)
 
+
 async def get_data(session, url, page):
     async with session.get(f"{url}{page}/") as response:
         try:
