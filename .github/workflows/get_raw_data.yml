@@ -1,0 +1,35 @@
+name: Get money bill's data
+
+on:
+ schedule:
+   - cron: '1/4 * * * *'
+# on:
+#   push:
+#     branches:
+#       - run-prefect-with-actions
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.12
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
+        version: "0.6.2"
+    - name: Install the project
+      run: uv sync --locked --all-extras --dev
+    - name: Prefect Cloud login
+      run: |
+        uv run prefect config set PREFECT_API_KEY=${{secrets.PREFECT_API_KEY}} 
+        uv run prefect cloud workspace set --workspace "${{secrets.PREFECT_WORKSPACE}}"      
+    - name: Run money bill's scraper
+      env:
+          NUMISMATIC_BUCKET: ${{ secrets.NUMISMATIC_BUCKET }}
+          NUMISMATIC_RAW: ${{ secrets.NUMISMATIC_RAW }}
+      run: |
+        uv run src/get_raw_data.py
