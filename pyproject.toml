@@ -10,5 +10,7 @@ dependencies = [
     "black>=25.1.0",
     "google-cloud-storage>=3.2.0",
     "pandas>=2.3.1",
+    "prefect>=3.4.12",
+    "prefect-gcp>=0.6.10",
     "requests>=2.32.4",
 ]
