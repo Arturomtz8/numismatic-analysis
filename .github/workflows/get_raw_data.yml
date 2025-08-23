@@ -1,8 +1,8 @@
 name: Get money bill's data
 
 on:
- schedule:
-   - cron: '20,23,26,29,32 * * * *'
+  schedule:
+    - cron: '47,50,53 * * * *'
 # on:
 #   push:
 #     branches:
